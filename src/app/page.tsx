@@ -75,6 +75,41 @@ export default function LandingPage() {
           </div>
         </section>
 
+        <section className="max-w-[1200px] mx-auto px-6 py-16 text-center">
+          <h2 className="font-[family-name:var(--font-heading)] font-semibold text-2xl text-text mb-2">Meet Our Team</h2>
+          <p className="text-sm text-text-secondary mb-10">Students of KL University who built ThyroSense AI</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-surface p-6 rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary-light flex items-center justify-center">
+                <span className="font-[family-name:var(--font-heading)] font-bold text-primary text-xl">JK</span>
+              </div>
+              <h3 className="font-medium text-text">Jangiti Kusumeswari</h3>
+              <p className="text-xs text-text-secondary mt-1">Developer</p>
+            </div>
+            <div className="bg-surface p-6 rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary-light flex items-center justify-center">
+                <span className="font-[family-name:var(--font-heading)] font-bold text-primary text-xl">CH</span>
+              </div>
+              <h3 className="font-medium text-text">Challa Haritha</h3>
+              <p className="text-xs text-text-secondary mt-1">Developer</p>
+            </div>
+            <div className="bg-surface p-6 rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary-light flex items-center justify-center">
+                <span className="font-[family-name:var(--font-heading)] font-bold text-primary text-xl">BK</span>
+              </div>
+              <h3 className="font-medium text-text">Boreddy Keerthi Reddy</h3>
+              <p className="text-xs text-text-secondary mt-1">Developer</p>
+            </div>
+            <div className="bg-surface p-6 rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary-light flex items-center justify-center">
+                <span className="font-[family-name:var(--font-heading)] font-bold text-primary text-xl">KM</span>
+              </div>
+              <h3 className="font-medium text-text">Karur Mohammed Sameer Basha</h3>
+              <p className="text-xs text-text-secondary mt-1">Developer</p>
+            </div>
+          </div>
+        </section>
+
         <section className="bg-primary text-white py-12">
           <div className="max-w-[1200px] mx-auto px-6 text-center">
             <p className="text-sm opacity-80 max-w-2xl mx-auto leading-relaxed">
