@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ThyroSense AI
+
+Intelligent thyroid disease prediction and clinical decision-support system with explainable AI.
+
+This is an educational decision-support tool that provides a data-driven preliminary risk assessment for thyroid disorders (Normal / Hypothyroidism / Hyperthyroidism) based on lab values and symptoms, with transparent, explainable predictions.
+
+## Features
+
+- **Predictive Assessment** — Multi-factor analysis using TSH, T3, T4, Free T3, Free T4, and symptoms
+- **Explainable AI** — SHAP-style feature contribution chart showing what drove each prediction
+- **Confidence Scoring** — Animated circular progress ring for prediction confidence
+- **PDF Reports** — Professional downloadable reports suitable for sharing with healthcare providers
+- **User Accounts** — Email/password and Google OAuth sign-in via InsForge auth
+- **Assessment History** — Full history with filtering by result type
+- **Analytics Dashboard** — Charts for risk distribution, age/gender demographics, symptom frequency
+- **Responsive Design** — Clinical, calm UI with teal/coral/amber palette, fully mobile-responsive
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | [Next.js 16](https://nextjs.org/) (App Router), [React 19](https://react.dev/), [Tailwind CSS v4](https://tailwindcss.com/) |
+| Backend | [InsForge](https://insforge.dev) (PostgreSQL, auth, edge functions, storage) |
+| Edge Function | Deno-based prediction engine with SHAP explanations |
+| Charts | [Chart.js](https://www.chartjs.org/) (analytics), [Recharts](https://recharts.org/) |
+| PDF | [jsPDF](https://github.com/parallax/jsPDF) + [html-to-image](https://github.com/bubkoo/html-to-image) |
+
+## Screens
+
+- Landing page with disclaimer and feature overview
+- Sign Up / Login (email+password or Google OAuth)
+- Dashboard with stats and recent assessments
+- New Assessment form (demographics, 5 lab values, 7 symptoms)
+- Result page with confidence ring, SHAP chart, recommendation
+- History list (filterable) and detail pages
+- Analytics dashboard with charts
+- Profile settings
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create `.env.local`:
 
-## Learn More
+```bash
+NEXT_PUBLIC_INSFORGE_URL=https://your-app.region.insforge.app
+NEXT_PUBLIC_INSFORGE_ANON_KEY=anon_your_key
+NEXT_PUBLIC_FUNCTION_URL=https://your-app.function2.insforge.app/predict-thyroid
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Disclaimer
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This is an educational decision-support tool and **not a substitute for professional medical diagnosis**. Always consult a qualified healthcare provider for any health concerns.
