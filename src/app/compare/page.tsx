@@ -124,8 +124,23 @@ export default function ComparePage() {
 
   const first = assessments[0];
   const last = assessments[assessments.length - 1];
-  const improved = last.confidence > first.confidence;
-  const trend = last.prediction !== first.prediction ? 'changed' : 'stable';
+
+  const getStatus = () => {
+    if (last.prediction === 'Normal' && first.prediction !== 'Normal') return { label: 'Health Improved', color: '#4C9A72' };
+    if (last.prediction !== 'Normal' && first.prediction === 'Normal') return { label: 'Worsened', color: '#E8836B' };
+    if (last.prediction !== first.prediction) return { label: 'Condition Changed', color: '#D9A441' };
+
+    const TSH_NORMAL = 2.2;
+    const firstDist = Math.abs(first.tsh - TSH_NORMAL);
+    const lastDist = Math.abs(last.tsh - TSH_NORMAL);
+    const ratio = firstDist > 0 ? lastDist / firstDist : 1;
+
+    if (ratio < 0.8) return { label: 'Slightly Improved', color: '#4C9A72' };
+    if (ratio > 1.2) return { label: 'Slightly Worse', color: '#E8836B' };
+    return { label: 'Stable', color: '#6B7280' };
+  };
+
+  const status = getStatus();
 
   return (
     <AuthGuard>
@@ -149,9 +164,7 @@ export default function ComparePage() {
           </div>
           <div className="bg-surface p-5 rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
             <p className="text-xs text-text-secondary uppercase tracking-wider">Status</p>
-            <p className="mt-1 text-sm font-medium" style={{ color: trend === 'changed' ? '#D9A441' : '#4C9A72' }}>
-              {trend === 'changed' ? 'Condition changed' : 'Stable'}
-            </p>
+            <p className="mt-1 text-sm font-semibold" style={{ color: status.color }}>{status.label}</p>
           </div>
         </div>
 
