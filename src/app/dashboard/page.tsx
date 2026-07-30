@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import AuthGuard from '@/components/AuthGuard';
 import Navbar from '@/components/Navbar';
@@ -8,6 +8,7 @@ import RiskBadge from '@/components/RiskBadge';
 import { insforge } from '@/lib/insforge';
 import { useAuth } from '@/lib/auth';
 import { formatDate } from '@/lib/utils';
+import { generateAssessmentPdf } from '@/lib/pdf';
 
 interface Assessment {
   id: string;
@@ -21,6 +22,7 @@ export default function DashboardPage() {
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [stats, setStats] = useState({ total: 0, avgConfidence: 0, mostCommon: '-' });
   const [loading, setLoading] = useState(true);
+  const [pdfLoading, setPdfLoading] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAssessments = async () => {
@@ -43,6 +45,13 @@ export default function DashboardPage() {
     };
     fetchAssessments();
   }, []);
+
+  const downloadPdf = async (id: string) => {
+    setPdfLoading(id);
+    const { data } = await insforge.database.from('assessments').select('*').eq('id', id).single();
+    if (data) await generateAssessmentPdf(data);
+    setPdfLoading(null);
+  };
 
   return (
     <AuthGuard>
@@ -109,13 +118,22 @@ export default function DashboardPage() {
           ) : (
             <div className="divide-y divide-border">
               {assessments.map((a) => (
-                <Link key={a.id} href={`/history/${a.id}`} className="flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition-colors">
-                  <div className="flex items-center gap-4">
+                <div key={a.id} className="flex items-center justify-between px-6 py-4">
+                  <Link href={`/history/${a.id}`} className="flex items-center gap-4 flex-1 hover:opacity-80">
                     <RiskBadge prediction={a.prediction} />
                     <span className="text-sm font-mono text-text-secondary">{a.confidence}% confidence</span>
+                  </Link>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-text-secondary">{formatDate(a.created_at)}</span>
+                    <button
+                      onClick={() => downloadPdf(a.id)}
+                      disabled={pdfLoading === a.id}
+                      className="text-xs text-primary font-medium hover:underline disabled:opacity-50"
+                    >
+                      {pdfLoading === a.id ? '...' : 'Download PDF'}
+                    </button>
                   </div>
-                  <span className="text-xs text-text-secondary">{formatDate(a.created_at)}</span>
-                </Link>
+                </div>
               ))}
             </div>
           )}

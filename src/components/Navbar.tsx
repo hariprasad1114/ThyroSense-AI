@@ -9,6 +9,7 @@ const navLinks = [
   { href: '/dashboard', label: 'Dashboard' },
   { href: '/assessment', label: 'New Assessment' },
   { href: '/history', label: 'History' },
+  { href: '/compare', label: 'Compare' },
   { href: '/analytics', label: 'Analytics' },
 ];
 

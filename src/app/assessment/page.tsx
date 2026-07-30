@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import AuthGuard from '@/components/AuthGuard';
 import Navbar from '@/components/Navbar';
+import ScanUpload from '@/components/ScanUpload';
 import { insforge } from '@/lib/insforge';
 import { useAuth } from '@/lib/auth';
 
@@ -20,7 +21,7 @@ interface FormData {
   symptoms: string[];
 }
 
-const ALL_SYMPTOMS = ['Fatigue', 'Weight gain', 'Weight loss', 'Hair loss', 'Heat intolerance', 'Cold intolerance', 'Neck swelling'];
+  const ALL_SYMPTOMS = ['Fatigue', 'Weight gain', 'Weight loss', 'Hair loss', 'Heat intolerance', 'Cold intolerance', 'Neck swelling'];
 
 export default function NewAssessmentPage() {
   const router = useRouter();
@@ -30,6 +31,20 @@ export default function NewAssessmentPage() {
   const [form, setForm] = useState<FormData>({
     age: '', gender: '', tsh: '', t3: '', t4: '', freeT3: '', freeT4: '', symptoms: [],
   });
+
+  const handleScanComplete = useCallback((parsed: Record<string, any>) => {
+    setForm((prev) => ({
+      ...prev,
+      age: parsed.age ?? prev.age,
+      gender: parsed.gender ?? prev.gender,
+      tsh: parsed.tsh ?? prev.tsh,
+      t3: parsed.t3 ?? prev.t3,
+      t4: parsed.t4 ?? prev.t4,
+      freeT3: parsed.freeT3 ?? prev.freeT3,
+      freeT4: parsed.freeT4 ?? prev.freeT4,
+      symptoms: parsed.symptoms ? [...new Set([...prev.symptoms, ...parsed.symptoms])] : prev.symptoms,
+    }));
+  }, []);
 
   const updateField = (field: keyof FormData, value: string) => setForm((prev) => ({ ...prev, [field]: value }));
 
@@ -113,6 +128,11 @@ export default function NewAssessmentPage() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-8">
+          <section className="bg-surface p-8 rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
+            <h2 className="font-[family-name:var(--font-heading)] font-semibold text-lg text-text mb-4">Quick Scan</h2>
+            <ScanUpload onScanComplete={handleScanComplete} />
+          </section>
+
           <section className="bg-surface p-8 rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] space-y-5">
             <h2 className="font-[family-name:var(--font-heading)] font-semibold text-lg text-text">Demographics</h2>
             <div className="grid md:grid-cols-2 gap-5">
